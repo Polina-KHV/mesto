@@ -8,4 +8,10 @@
   background-image: url(../../../images/Edit\ Button.svg);
   background-repeat: no-repeat;
   background-size: contain;
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+
+.profile__edit-button:hover {
+  opacity: .6;
 }

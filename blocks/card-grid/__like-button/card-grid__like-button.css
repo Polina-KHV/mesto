@@ -1,0 +1,19 @@
+.card-grid__like-button {
+  width: 22px;
+  height: 19px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  margin-right: 20px;
+  background-image: url(../../../images/Like\ Icon.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  opacity: 1;
+  transition: opacity .2s linear;
+}
+
+.card-grid__like-button:hover {
+  opacity: .6;
+}
