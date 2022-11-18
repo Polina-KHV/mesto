@@ -27,3 +27,7 @@
 @import url(../blocks/card-grid/__image/card-grid__image.css);
 @import url(../blocks/card-grid/__name/card-grid__name.css);
 @import url(../blocks/card-grid/__like-button/card-grid__like-button.css);
+
+/* Footer */
+@import url(../blocks/footer/footer.css);
+@import url(../blocks/footer/__copyright/footer__copyright.css);
