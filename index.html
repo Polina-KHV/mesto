@@ -21,7 +21,7 @@
         <section class="profile">
           <img src="./images/Avatar.png" alt="Здесь должна быть ваша аватарка, но что-то пошло не так." class="profile__avatar">
           <div class="profile__info">
-            <p class="profile__name">Жак-Ив Кусто</p>
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
             <button class="profile__edit-button"></button>
             <p class="profile__job">Исследователь океана</p>
           </div>
@@ -33,32 +33,32 @@
           <ul class="card-grid">
             <li class="card-grid__item"> 
               <img src="./images/card-grid/altai.jpg" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу." class="card-grid__image">
-              <p class="card-grid__name">Алтай</p>
+              <h2 class="card-grid__name">Алтай</h2>
               <button class="card-grid__like-button"></button>
             </li>
             <li class="card-grid__item">
               <img src="./images/card-grid/baikal.jpg" alt="Байкал. Остров Огой.Заледеневшее озеро. Скала." class="card-grid__image">
-              <p class="card-grid__name">Байкал</p>
+              <h2 class="card-grid__name">Байкал</h2>
               <button class="card-grid__like-button"></button>
             </li>
             <li class="card-grid__item"> 
               <img src="./images/card-grid/elbrus.jpg" alt="Эльбрус. Вершины. Горный массив. Река в долине." class="card-grid__image">
-              <p class="card-grid__name">Эльбрус</p>
+              <h2 class="card-grid__name">Эльбрус</h2>
               <button class="card-grid__like-button"></button>
             </li>
             <li class="card-grid__item"> 
               <img src="./images/card-grid/kamchatka.jpg" alt="Камчатка. Вулкан в облаках. Черный склон со снегом." class="card-grid__image">
-              <p class="card-grid__name">Камчатка</p>
+              <h2 class="card-grid__name">Камчатка</h2>
               <button class="card-grid__like-button"></button>
             </li>
             <li class="card-grid__item"> 
               <img src="./images/card-grid/karelia.jpg" alt="Карелия. Скалистый берег реки. Сосновый лес." class="card-grid__image">
-              <p class="card-grid__name">Карелия</p>
+              <h2 class="card-grid__name">Карелия</h2>
               <button class="card-grid__like-button"></button>
             </li>
             <li class="card-grid__item"> 
               <img src="./images/card-grid/sochi.jpg" alt="Сочи. Горный массив в зелени. Серпантин. Туман." class="card-grid__image">
-              <p class="card-grid__name">Сочи</p>
+              <h2 class="card-grid__name">Сочи</h2>
               <button class="card-grid__like-button"></button>
             </li>
           </ul>
@@ -67,21 +67,23 @@
 
       <!-- Footer -->
       <footer class="footer">
-        <p class="footer__copyright" lang="en">&copy2022 Mesto Russia</p>
+        <p class="footer__copyright" lang="en">&#169;2022 Mesto Russia</p>
       </footer>
 
       <!-- Popup -->
       <section class="popup">
         <div class="popup__container">
-          <div class="popup__content">
+          <form class="popup__content">
             <h2 class="popup__title">Редактировать профиль</h2>
-            <input type="text" class="popup__name-input">
-            <input type="text" class="popup__job-input">
-            <button class="popup__submit-button">Сохранить</button>
-          </div>
+            <input type="text" class="popup__name-input" value="Жак-Ив Кусто">
+            <input type="text" class="popup__job-input" value="Исследователь океана">
+            <button class="popup__submit-button" type="submit">Сохранить</button>
+          </form>
           <button class="popup__close-button"></button>
         </div>
       </section>
     </div>
+
+    <script src="./scripts/index.js"></script>
   </body>
 </html>

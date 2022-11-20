@@ -27,6 +27,7 @@
 @import url(../blocks/card-grid/__image/card-grid__image.css);
 @import url(../blocks/card-grid/__name/card-grid__name.css);
 @import url(../blocks/card-grid/__like-button/card-grid__like-button.css);
+@import url(../blocks/card-grid/__like-button/_active/__like-button_active.css);
 
 /* Footer */
 @import url(../blocks/footer/footer.css);
@@ -41,3 +42,4 @@
 @import url(../blocks/popup/__job-input/popup__job-input.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
+@import url(../blocks/popup/_opened/popup_opened.css);
