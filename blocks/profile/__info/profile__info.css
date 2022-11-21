@@ -6,7 +6,6 @@
   row-gap: 16px;
   align-items: baseline;
   max-width: 336px;
-  min-height: 73px;
   font-family: 'Inter', Arial, sans-serif;
   color: #fff;
 }
@@ -18,7 +17,6 @@
     column-gap: 14px;
     row-gap: 14px;
     max-width: 313px;
-    min-height: 70px;
   }
 }
 
@@ -28,6 +26,5 @@
     grid-template-rows: 26px 14px;
     column-gap: 10px;
     max-width: 245px;
-    min-height: 54px;
   }
 }

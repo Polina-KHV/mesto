@@ -4,21 +4,21 @@ const popupOpenButtonElement = document.querySelector('.profile__edit-button');
 const popupCloseButtonElement = popupElement.querySelector('.popup__close-button');
 
 const formElement = document.querySelector('.popup__content');
-const nameInput = formElement.querySelector('.popup__name-input');
-const jobInput = formElement.querySelector('.popup__job-input');
+const nameInput = formElement.querySelector('.popup__input_type_name');
+const jobInput = formElement.querySelector('.popup__input_type_job');
 
-let Name = document.querySelector('.profile__name');
-let Job = document.querySelector('.profile__job');
+let profileName = document.querySelector('.profile__name');
+let profileJob = document.querySelector('.profile__job');
 
 // Подключаем открывание и закрывание popup
 const openPopup = function() {
   popupElement.classList.add('popup_opened');
+
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
 }
 
 const closePopup = function() {
-  nameInput.value = Name.textContent;
-  jobInput.value = Job.textContent;
-
   popupElement.classList.remove('popup_opened')
 }
 
@@ -32,10 +32,10 @@ function formSubmitHandler (evt) {
   let newNameInput = nameInput.value;
   let newJobInput = jobInput.value;
 
-  Name.textContent = newNameInput;
-  Job.textContent = newJobInput;
+  profileName.textContent = newNameInput;
+  profileJob.textContent = newJobInput;
 
-  popupElement.classList.remove('popup_opened')
+  closePopup()
 }
 
 formElement.addEventListener('submit', formSubmitHandler);

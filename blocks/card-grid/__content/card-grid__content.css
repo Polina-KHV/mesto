@@ -1,0 +1,8 @@
+.card-grid__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 240px;
+  height: 23px;
+  margin: 0 auto;
+}
