@@ -152,12 +152,15 @@ function createElement(item) {
   cardImage.setAttribute('alt', item.description);
   cardName.textContent = item.name;
 
+  const popupCardOpenButtonElement = card.querySelector('.card-grid__image');
+  popupCardOpenButtonElement.addEventListener('click', openPopupCard);
+
   return card
 };
 
 cardGridArray.forEach(function(item) {
-  const element = createElement(item)
-  cardGridElement.append(element);
+  const element = createElement(item);
+  cardGridElement.append(element)
 });
 
 // Прописываем алгоритм лайка карточек
@@ -169,3 +172,33 @@ function handleLikeButtonClick (evt) {
 function handleDeleteButtonClick (evt) {
   evt.target.closest('.card-grid__item').remove()
 }
+
+
+// Прописываем алгоритм открывания с картинкой
+
+// Объявляем переменные
+const popupCardElement = document.querySelector('.popup_type_card');
+const popupCardCloseButtonElement = popupCardElement.querySelector('.popup__close-button_type_image');
+
+
+// Подключаем открывание и закрывание popup с картинкой
+function openPopupCard (evt) {
+  popupCardElement.classList.add('popup_opened');
+
+  const popupCardImage = popupCardElement.querySelector('.popup__image');
+  const popupCardImageCaption = popupCardElement.querySelector('.popup__image-caption');
+
+  const cardImageSource = evt.target.closest('.card-grid__image').getAttribute('src');
+  const cardImageDescription = evt.target.closest('.card-grid__image').getAttribute('alt');
+
+  popupCardImage.setAttribute('src', cardImageSource);
+  popupCardImage.setAttribute('alt', cardImageDescription);
+  popupCardImageCaption.textContent = evt.target.closest('.card-grid__item').textContent;
+}
+
+function closePopupCard () {
+  popupCardElement.classList.remove('popup_opened')
+}
+
+
+popupCardCloseButtonElement.addEventListener('click', closePopupCard);
