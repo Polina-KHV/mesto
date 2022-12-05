@@ -29,7 +29,8 @@
 @import url(../blocks/card-grid/__content/card-grid__content.css);
 @import url(../blocks/card-grid/__name/card-grid__name.css);
 @import url(../blocks/card-grid/__like-button/card-grid__like-button.css);
-@import url(../blocks/card-grid/__like-button/_active/__like-button_active.css);
+@import url(../blocks/card-grid/__like-button/_active/card-grid__like-button_active.css);
+@import url(../blocks/card-grid/__delete-button/card-grid__delete-button.css);
 
 /* Footer */
 @import url(../blocks/footer/footer.css);
@@ -41,8 +42,6 @@
 @import url(../blocks/popup/__content/popup__content.css);
 @import url(../blocks/popup/__title/popup__title.css);
 @import url(../blocks/popup/__input/popup__input.css);
-@import url(../blocks/popup/__input/_type/popup__input_type_name.css);
-@import url(../blocks/popup/__input/_type/popup__input_type_job.css);
 @import url(../blocks/popup/__submit-button/popup__submit-button.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
