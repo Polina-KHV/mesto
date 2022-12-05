@@ -174,7 +174,10 @@ function handleDeleteButtonClick (evt) {
 }
 
 
-// Прописываем алгоритм открывания с картинкой
+
+
+
+// Прописываем алгоритм открывания popup с картинкой
 
 // Объявляем переменные
 const popupCardElement = document.querySelector('.popup_type_card');
