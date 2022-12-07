@@ -1,83 +1,81 @@
-// Прописываем алгоритм редактирования данных профиля
-
 // Объявляем переменные
 const popupProfileInfoElement = document.querySelector('.popup_type_profile-information');
 const popupProfileInfoOpenButtonElement = document.querySelector('.profile__edit-button');
-const popupProfileInfoCloseButtonElement = popupProfileInfoElement.querySelector('.popup__close-button_type_profile-information');
 
-const formProfileInfoElement = popupProfileInfoElement.querySelector('.popup__content');
-const nameInput = formProfileInfoElement.querySelector('.popup__input_type_name');
-const jobInput = formProfileInfoElement.querySelector('.popup__input_type_job');
+const popupPlaceAddElement = document.querySelector('.popup_type_place-addition');
+const popupPlaceAddOpenButtonElement = document.querySelector('.profile__add-button');
 
-let profileName = document.querySelector('.profile__name');
-let profileJob = document.querySelector('.profile__job');
+const popupCloseButtons = document.querySelectorAll('.popup__close-button');
 
-// Подключаем открывание и закрывание popup
-const openPopupProfileInfo = function() {
-  popupProfileInfoElement.classList.add('popup_opened');
+const profileForm = document.forms['profile-information'];
+const nameInput = profileForm.elements['name'];
+const jobInput = profileForm.elements['job'];
 
-  nameInput.value = profileName.textContent;
-  jobInput.value = profileJob.textContent;
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+
+const cardForm = document.forms['place-addition'];
+const placeInput = cardForm.elements['place'];
+const linkInput = cardForm.elements['link'];
+
+const cardGridElement = document.querySelector('.card-grid__container');
+const cardTemplate = document.querySelector('#card-template').content.querySelector('.card-grid__item');
+
+const popupCardElement = document.querySelector('.popup_type_card');
+const popupCardImage = popupCardElement.querySelector('.popup__image');
+const popupCardImageCaption = popupCardElement.querySelector('.popup__image-caption');
+
+
+
+//Popup
+// Прописываем открывание и закрывание popup
+function openPopup(popup) {
+  popup.classList.add('popup_opened')
 };
 
-const closePopupProfileInfo = function() {
-  popupProfileInfoElement.classList.remove('popup_opened')
+function closePopup(popup) {
+  popup.classList.remove('popup_opened')
 };
 
-popupProfileInfoOpenButtonElement.addEventListener('click', openPopupProfileInfo);
-popupProfileInfoCloseButtonElement.addEventListener('click', closePopupProfileInfo);
+// Добавляем обработчик событий для закрывания popup
+popupCloseButtons.forEach((button) => {
+  const popup = button.closest('.popup');
+  button.addEventListener('click', function() {closePopup(popup)})
+});
 
-// Подключаем редактирование данных профиля через поля ввода в окне popup
-function formProfileInfoSubmitHandler (evt) {
+
+
+//Popup Profile Info
+// Добавляем обработчик событий для открывания Popup Profile Info 
+popupProfileInfoOpenButtonElement.addEventListener('click', function() {openPopup(popupProfileInfoElement)});
+
+// Добавляем редактирование данных профиля в Popup Profile Info
+function handleProfileFormSubmit (evt) {
   evt.preventDefault();
   
-  let newNameInput = nameInput.value;
-  let newJobInput = jobInput.value;
+  const newNameInput = nameInput.value;
+  const newJobInput = jobInput.value;
 
   profileName.textContent = newNameInput;
   profileJob.textContent = newJobInput;
 
-  closePopupProfileInfo()
+  closePopup(popupProfileInfoElement)
 };
 
-formProfileInfoElement.addEventListener('submit', formProfileInfoSubmitHandler);
+profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 
 
+//Popup Place Addition
+// Добавляем обработчик событий для открывания Popup Place Addition
+popupPlaceAddOpenButtonElement.addEventListener('click', function() {openPopup(popupPlaceAddElement)});
 
-
-// Прописываем алгоритм добавления карточек
-
-// Объявляем переменные
-const popupPlaceAddElement = document.querySelector('.popup_type_place-addition');
-const popupPlaceAddOpenButtonElement = document.querySelector('.profile__add-button');
-const popupPlaceAddCloseButtonElement = popupPlaceAddElement.querySelector('.popup__close-button_type_place-addition');
-
-const formPlaceAddElement = popupPlaceAddElement.querySelector('.popup__content');
-const placeInput = popupPlaceAddElement.querySelector('.popup__input_type_place');
-const linkInput = popupPlaceAddElement.querySelector('.popup__input_type_link');
-
-// Подключаем открывание и закрывание popup
-const openPopupPlaceAdd = function() {
-  popupPlaceAddElement.classList.add('popup_opened');
-
-  placeInput.value = '';
-  linkInput.value = '';
-}
-
-const closePopupPlaceAdd = function() {
-  popupPlaceAddElement.classList.remove('popup_opened')
-}
-
-popupPlaceAddOpenButtonElement.addEventListener('click', openPopupPlaceAdd);
-popupPlaceAddCloseButtonElement.addEventListener('click', closePopupPlaceAdd);
-
-// Создаем новые карточки
-function formPlaceAddSubmitHandler (evt) {
+// Создаем новые карточки в Popup Place Addition
+function handleCardFormSubmit (evt) {
   evt.preventDefault();
   
-  let newPlaceInput = placeInput.value;
-  let newLinkInput = linkInput.value;
+  const newPlaceInput = placeInput.value;
+  const newLinkInput = linkInput.value;
 
   const newCard = {
     source: newLinkInput,
@@ -88,15 +86,16 @@ function formPlaceAddSubmitHandler (evt) {
   const element = createElement(newCard);
   cardGridElement.prepend(element);
 
-  closePopupPlaceAdd()
-}
+  evt.target.reset();
 
-formPlaceAddElement.addEventListener('submit', formPlaceAddSubmitHandler);
+  closePopup(popupPlaceAddElement)
+};
+
+cardForm.addEventListener('submit', handleCardFormSubmit);
 
 
 
-
-
+//Карточки мест
 // Создаем массив карточек мест
 const cardGridArray = [
   {
@@ -129,12 +128,9 @@ const cardGridArray = [
     description: 'Сочи. Горный массив в зелени. Серпантин. Туман.',
     name: 'Сочи'
   }
-]
+];
 
 // Прописываем алгоритм передачи данных из массива в карточки
-const cardGridElement = document.querySelector('.card-grid__container');
-const cardTemplate = document.querySelector('#card-template').content.querySelector('.card-grid__item');
-
 function createElement(item) {
 
   const card = cardTemplate.cloneNode(true);
@@ -152,8 +148,7 @@ function createElement(item) {
   cardImage.setAttribute('alt', item.description);
   cardName.textContent = item.name;
 
-  const popupCardOpenButtonElement = card.querySelector('.card-grid__image');
-  popupCardOpenButtonElement.addEventListener('click', openPopupCard);
+  cardImage.addEventListener('click', function() {openPopupCard(item)});
 
   return card
 };
@@ -171,37 +166,30 @@ function handleLikeButtonClick (evt) {
 // Прописываем алгоритм удаления карточек
 function handleDeleteButtonClick (evt) {
   evt.target.closest('.card-grid__item').remove()
-}
+};
 
 
 
+//Popup Card Image
+// Прописываем открывание и закрывание Popup Card Image
+function openPopupCard (item) {
+  openPopup(popupCardElement);
+
+  popupCardImage.setAttribute('src', item.source);
+  popupCardImage.setAttribute('alt', item.description);
+  popupCardImageCaption.textContent = item.name;
+};
 
 
-// Прописываем алгоритм открывания popup с картинкой
 
-// Объявляем переменные
-const popupCardElement = document.querySelector('.popup_type_card');
-const popupCardCloseButtonElement = popupCardElement.querySelector('.popup__close-button_type_image');
-
-
-// Подключаем открывание и закрывание popup с картинкой
-function openPopupCard (evt) {
-  popupCardElement.classList.add('popup_opened');
-
-  const popupCardImage = popupCardElement.querySelector('.popup__image');
-  const popupCardImageCaption = popupCardElement.querySelector('.popup__image-caption');
-
-  const cardImageSource = evt.target.closest('.card-grid__image').getAttribute('src');
-  const cardImageDescription = evt.target.closest('.card-grid__image').getAttribute('alt');
-
-  popupCardImage.setAttribute('src', cardImageSource);
-  popupCardImage.setAttribute('alt', cardImageDescription);
-  popupCardImageCaption.textContent = evt.target.closest('.card-grid__item').textContent;
-}
-
-function closePopupCard () {
-  popupCardElement.classList.remove('popup_opened')
-}
-
-
-popupCardCloseButtonElement.addEventListener('click', closePopupCard);
+//_______@@@_____________@@@________
+//____@_______@_______@______@______
+//___@__________@___@_________@_____
+//___@____________@____________@____
+//____@________СПАСИБО_______ @_____
+//_____@_________ЗА__________@______
+//______ @______РЕВЬЮ______@________
+//________ @_____________@__________
+//___________@_________@____________
+//_____________@_____@______________
+//________________@_________________
