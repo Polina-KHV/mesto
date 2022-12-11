@@ -29,3 +29,11 @@
     margin-top: 15px;
   }
 }
+
+.popup__submit-button:disabled {
+  background-color: transparent;
+  color: #000;
+  border: 1px solid #000;
+  opacity: 0.2;
+  cursor: default
+}
