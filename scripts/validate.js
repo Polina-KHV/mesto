@@ -67,8 +67,6 @@ function enableValidation(list) {
   })
 };
 
-//enableValidation()
-
 enableValidation({
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

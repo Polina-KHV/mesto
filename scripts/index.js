@@ -5,9 +5,6 @@ const popupProfileInfoOpenButtonElement = document.querySelector('.profile__edit
 const popupPlaceAddElement = document.querySelector('.popup_type_place-addition');
 const popupPlaceAddOpenButtonElement = document.querySelector('.profile__add-button');
 
-const popupCloseButtons = document.querySelectorAll('.popup__close-button');
-const popupList = document.querySelectorAll('.popup');
-
 const profileForm = document.forms['profile-information'];
 const nameInput = profileForm.elements['name'];
 const jobInput = profileForm.elements['job'];
@@ -29,41 +26,46 @@ const popupCardImageCaption = popupCardElement.querySelector('.popup__image-capt
 
 
 //Popup
-// Прописываем открывание и закрывание popup
+// Прописываем открывание popup
 function openPopup(popup) {
   popup.classList.add('popup_opened')
+
+  popup.addEventListener('mousedown', closePopupByEvent)
+  document.addEventListener('keydown', closePopupByKey)
 };
 
+// Прописываем закрывание popup
 function closePopup(popup) {
   popup.classList.remove('popup_opened')
+
+  popup.removeEventListener('mousedown', closePopupByEvent)
+  document.removeEventListener('keydown', closePopupByKey)
 };
 
-function closePopupByClickOnBackground(evt) {
-  if(evt.target === evt.currentTarget) {
-    closePopup(evt.target)
+function closePopupByEvent(evt) {
+  if(evt.target.classList.contains('popup_opened') || evt.target.classList.contains('popup__close-button')) {
+    closePopup(evt.currentTarget)
   }
 }
 
-// Добавляем обработчик событий для закрывания popup
-popupCloseButtons.forEach((button) => {
-  const popup = button.closest('.popup');
-  button.addEventListener('click', function() {closePopup(popup)})
-});
-
-popupList.forEach((popup) => {
-  popup.addEventListener('click', closePopupByClickOnBackground)
-  document.addEventListener('keydown', function(evt) {
-    if(evt.key === 'Escape') {
-      closePopup(popup)
-    }
-  })
-})
+function closePopupByKey(evt) {
+  if(evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup)
+  }
+};
 
 
 
 //Popup Profile Info
 // Добавляем обработчик событий для открывания Popup Profile Info 
-popupProfileInfoOpenButtonElement.addEventListener('click', function() {openPopup(popupProfileInfoElement)});
+popupProfileInfoOpenButtonElement.addEventListener('click', function() {
+  openPopup(popupProfileInfoElement);
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileJob.textContent;
+  // если удалить значения инпутов и закрыть попап, при открытии форма не валидируется,
+  // не понимаю, как поправить этот момент
+  });
 
 // Добавляем редактирование данных профиля в Popup Profile Info
 function handleProfileFormSubmit (evt) {
@@ -84,7 +86,11 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 
 //Popup Place Addition
 // Добавляем обработчик событий для открывания Popup Place Addition
-popupPlaceAddOpenButtonElement.addEventListener('click', function() {openPopup(popupPlaceAddElement)});
+popupPlaceAddOpenButtonElement.addEventListener('click', function() {
+  openPopup(popupPlaceAddElement);
+  const submitButton = popupPlaceAddElement.querySelector('.popup__submit-button');
+  submitButton.setAttribute('disabled', '')
+});
 
 // Создаем новые карточки в Popup Place Addition
 function handleCardFormSubmit (evt) {
@@ -95,7 +101,7 @@ function handleCardFormSubmit (evt) {
 
   const newCard = {
     source: newLinkInput,
-    description: 'Здесь должна быть красивая картинка, но что-то пошло не так. Проверьте правильность написания ссылки на картинку.',
+    description: newPlaceInput,
     name: newPlaceInput
   };
 
