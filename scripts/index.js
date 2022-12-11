@@ -6,6 +6,7 @@ const popupPlaceAddElement = document.querySelector('.popup_type_place-addition'
 const popupPlaceAddOpenButtonElement = document.querySelector('.profile__add-button');
 
 const popupCloseButtons = document.querySelectorAll('.popup__close-button');
+const popupList = document.querySelectorAll('.popup');
 
 const profileForm = document.forms['profile-information'];
 const nameInput = profileForm.elements['name'];
@@ -37,11 +38,26 @@ function closePopup(popup) {
   popup.classList.remove('popup_opened')
 };
 
+function closePopupByClickOnBackground(evt) {
+  if(evt.target === evt.currentTarget) {
+    closePopup(evt.target)
+  }
+}
+
 // Добавляем обработчик событий для закрывания popup
 popupCloseButtons.forEach((button) => {
   const popup = button.closest('.popup');
   button.addEventListener('click', function() {closePopup(popup)})
 });
+
+popupList.forEach((popup) => {
+  popup.addEventListener('click', closePopupByClickOnBackground)
+  document.addEventListener('keydown', function(evt) {
+    if(evt.key === 'Escape') {
+      closePopup(popup)
+    }
+  })
+})
 
 
 
