@@ -2,10 +2,11 @@
 export class FormValidator {
 
   constructor(list, formElement) {
-    this._formElelment = formElement;
+    this._formElement = formElement;
 
     this._inputSelector = list.inputSelector;
-    this._submitButton = this._formElelment.querySelector(list.submitButtonSelector);
+    this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    this._submitButton = this._formElement.querySelector(list.submitButtonSelector);
     this._inputErrorClass = list.inputErrorClass;
     this._errorClass = list.errorClass;
   }
@@ -13,7 +14,7 @@ export class FormValidator {
 
   // Показываем сообщение с ошибкой при некорректном заполнении инпутов
   _showInputError = (input, errorMessage) => {
-    const errorElement = this._formElelment.querySelector(`.${input.id}-error`);
+    const errorElement = this._formElement.querySelector(`.${input.id}-error`);
     input.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._errorClass)
@@ -21,7 +22,7 @@ export class FormValidator {
 
   // Убираем сообщение с ошибкой при корректном заполнении инпутов
   _hideInputError = (input, errorMessage) => {
-    const errorElement = this._formElelment.querySelector(`.${input.id}-error`);
+    const errorElement = this._formElement.querySelector(`.${input.id}-error`);
     input.classList.remove(this._inputErrorClass);
     errorElement.textContent = '';
     errorElement.classList.remove(this._errorClass)
@@ -43,37 +44,59 @@ export class FormValidator {
     })
   };
 
+  // Делаем кнопку сабмита неактивной
+  _disableSubmitButton = (submitButton) => {
+    submitButton.setAttribute('disabled', true)
+  };
+
+  // Выключаем кнопку сабмита
+  deactivateSubmitButton() {
+    const submitButton = this._submitButton;
+    this._disableSubmitButton(submitButton)
+  }
+
+  // Делаем кнопку сабмита активной
+  _ableSubmitButton = (submitButton) => {
+    submitButton.removeAttribute('disabled')
+  };
+
   // Переключаем стили кнопок сабмита в соответствие с валидностью формы
   _toggleSubmitButton = (inputList, submitButton) => {
     if(this._hasInvalidInput(inputList)) {
-      submitButton.setAttribute('disabled', '')
+      this._disableSubmitButton(submitButton)
     } else {
-      submitButton.removeAttribute('disabled', '')
+      this._ableSubmitButton(submitButton)
     }
   };
 
   // Добавляем инпутам обработчик событий
   _setEventListeners = () => {
-    const inputList = Array.from(this._formElelment.querySelectorAll(this._inputSelector));
-    const submitButton = this._submitButton;
+    this._toggleSubmitButton(this._inputList, this._submitButton);
 
-    this._toggleSubmitButton(inputList, submitButton);
-
-    inputList.forEach((input) => {
+    this._inputList.forEach((input) => {
       input.addEventListener('input', () => {
         this._isValid(input);
 
-        this._toggleSubmitButton(inputList, submitButton)
+        this._toggleSubmitButton(this._inputList, this._submitButton)
       })
     })
   };
 
   // Добавляем валидацию всех форм на странице
   enableValidation() {
-    this._formElelment.addEventListener('submit', function(evt) {
-      evt.preventDefault
+    this._formElement.addEventListener('submit', function(evt) {
+      evt.preventDefault();
     });
 
     this._setEventListeners()
+  }
+
+  // Убираем ошибки инпутов при повторном открытии попапа редактирования данных профиля
+  updateValidation() {
+    this._ableSubmitButton(this._submitButton);
+
+    this._inputList.forEach((input) => {
+      this._hideInputError(input, input.validationMessage)
+    })
   }
 }

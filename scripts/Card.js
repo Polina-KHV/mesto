@@ -23,11 +23,11 @@ export class Card {
 
   // Прописываем открывание Popup Card Image
   _openPopupCard() {
-    openPopup(popupCardElement);
-
     popupCardImage.src = this._source;
     popupCardImage.alt =  this._description;
     popupCardImageCaption.textContent = this._name;
+
+    openPopup(popupCardElement);
   };
 
   // Прописываем лайк карточек
@@ -37,7 +37,8 @@ export class Card {
 
   // Прописываем удаление карточек
   _handleDeleteButton() {
-    this._element.remove()
+    this._element.remove();
+    this._element = null
   }
 
   // Прописываем слушатели событий

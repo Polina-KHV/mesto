@@ -1,6 +1,7 @@
 // Импортируем файлы
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { cardGridArray } from './cardGridArray.js'
 
 
 // Объявляем переменные
@@ -27,7 +28,7 @@ export const popupCardElement = document.querySelector('.popup_type_card');
 export const popupCardImage = popupCardElement.querySelector('.popup__image');
 export const popupCardImageCaption = popupCardElement.querySelector('.popup__image-caption');
 
-const list = {
+const validationConfig = {
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__submit-button',
   inputErrorClass: 'popup__input_type_error',
@@ -40,8 +41,8 @@ const list = {
 const formList = Array.from(document.forms);
 
 formList.forEach(function(form) {
-  const Validator = new FormValidator(list, form);
-  const formValidation = Validator.enableValidation();
+  const validator = new FormValidator(validationConfig, form);
+  validator.enableValidation();
 });
 
 
@@ -49,10 +50,11 @@ formList.forEach(function(form) {
 //Popup
 // Прописываем открывание и закрывание popup
 export function openPopup(popup) {
-  popup.classList.add('popup_opened')
 
-  popup.addEventListener('mousedown', closePopupByEvent)
-  document.addEventListener('keydown', closePopupByKey)
+  popup.classList.add('popup_opened');
+
+  popup.addEventListener('mousedown', closePopupByEvent);
+  document.addEventListener('keydown', closePopupByKey);
 };
 
 // Прописываем закрывание popup
@@ -81,11 +83,16 @@ function closePopupByKey(evt) {
 //Popup Profile Info
 // Добавляем обработчик событий для открывания Popup Profile Info 
 popupProfileInfoOpenButtonElement.addEventListener('click', function() {
-  openPopup(popupProfileInfoElement);
+
+  const validator = new FormValidator(validationConfig, profileForm);
+  validator.updateValidation();
+
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-  // если удалить значения инпутов и закрыть попап, при открытии форма не валидируется,
-  // не понимаю, как поправить этот момент
+
+  validator.enableValidation();
+
+  openPopup(popupProfileInfoElement);
   });
 
 // Добавляем редактирование данных профиля в Popup Profile Info
@@ -108,9 +115,10 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 //Popup Place Addition
 // Добавляем обработчик событий для открывания Popup Place Addition
 popupPlaceAddOpenButtonElement.addEventListener('click', function() {
-  openPopup(popupPlaceAddElement);
-  const submitButton = popupPlaceAddElement.querySelector('.popup__submit-button');
-  submitButton.setAttribute('disabled', '')
+  const validator = new FormValidator(validationConfig, cardForm);
+  validator.deactivateSubmitButton();
+
+  openPopup(popupPlaceAddElement)
 });
 
 // Создаем новые карточки в Popup Place Addition
@@ -138,49 +146,14 @@ function handleCardFormSubmit (evt) {
 
 cardForm.addEventListener('submit', handleCardFormSubmit);
 
-
-
-//Карточки мест
-// Создаем массив карточек мест
-const cardGridArray = [
-  {
-    source: './images/card-grid/altai.png',
-    description: 'Алтай. Горное озеро.Каменный склон. Лес на берегу.',
-    name: 'Алтай'
-  },
-  {
-    source: './images/card-grid/baikal.png',
-    description: 'Байкал. Остров Огой.Заледеневшее озеро. Скала.',
-    name: 'Байкал'
-  },
-  {
-    source: './images/card-grid/elbrus.png',
-    description: 'Эльбрус. Вершины. Горный массив. Река в долине.',
-    name: 'Эльбрус'
-  },
-  {
-    source: './images/card-grid/kamchatka.png',
-    description: 'Камчатка. Вулкан в облаках. Черный склон со снегом.',
-    name: 'Камчатка'
-  },
-  {
-    source: './images/card-grid/karelia.png',
-    description: 'Карелия. Скалистый берег реки. Сосновый лес.',
-    name: 'Карелия'
-  },
-  {
-    source: './images/card-grid/sochi.png',
-    description: 'Сочи. Горный массив в зелени. Серпантин. Туман.',
-    name: 'Сочи'
-  }
-];
-
-
-
-// Создаем карточки из массива
+// Создаем карточки в Popup Place Addition из массива
 cardGridArray.forEach((item) => {
   const card = new Card('#card-template', item);
   const cardElement = card.createCard();
+  // Здесь не совсем поняла замечание.
+  // Я создаю разные карточки, так как данные в конструктор карточки идут разные.
+  // А метод добавления карт дублирую, так как они добавляются либо в начало, либо в конец грида.
+  // Или я неправильно поняла замечание?
 
   cardGridElement.append(cardElement);
 });
