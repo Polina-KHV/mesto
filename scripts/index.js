@@ -1,3 +1,8 @@
+// Импортируем файлы
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
+
 // Объявляем переменные
 const popupProfileInfoElement = document.querySelector('.popup_type_profile-information');
 const popupProfileInfoOpenButtonElement = document.querySelector('.profile__edit-button');
@@ -15,22 +20,38 @@ const jobInput = profileForm.elements['job'];
 const profileName = document.querySelector('.profile__name');
 const profileJob = document.querySelector('.profile__job');
 
+const cardGridElement = document.querySelector('.card-grid__container');
+
 const cardForm = document.forms['place-addition'];
 const placeInput = cardForm.elements['place'];
 const linkInput = cardForm.elements['link'];
 
-const cardGridElement = document.querySelector('.card-grid__container');
-const cardTemplate = document.querySelector('#card-template').content.querySelector('.card-grid__item');
+export const popupCardElement = document.querySelector('.popup_type_card');
+export const popupCardImage = popupCardElement.querySelector('.popup__image');
+export const popupCardImageCaption = popupCardElement.querySelector('.popup__image-caption');
 
-const popupCardElement = document.querySelector('.popup_type_card');
-const popupCardImage = popupCardElement.querySelector('.popup__image');
-const popupCardImageCaption = popupCardElement.querySelector('.popup__image-caption');
+const list = {
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__submit-button',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__input-error_active'
+}
+
+
+
+// Валидируем все формы
+const formList = Array.from(document.forms);
+
+formList.forEach(function(form) {
+  const Validator = new FormValidator(list, form);
+  const formValidation = Validator.enableValidation();
+});
 
 
 
 //Popup
 // Прописываем открывание и закрывание popup
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add('popup_opened')
 };
 
@@ -99,8 +120,10 @@ function handleCardFormSubmit (evt) {
     name: newPlaceInput
   };
 
-  const element = createElement(newCard);
-  cardGridElement.prepend(element);
+  const card = new Card('#card-template', newCard);
+  const cardElement = card.createCard();
+
+  cardGridElement.prepend(cardElement);
 
   evt.target.reset();
 
@@ -146,55 +169,15 @@ const cardGridArray = [
   }
 ];
 
-// Прописываем алгоритм передачи данных из массива в карточки
-function createElement(item) {
 
-  const card = cardTemplate.cloneNode(true);
 
-  const cardImage = card.querySelector('.card-grid__image');
-  const cardName = card.querySelector('.card-grid__name');
+// Создаем карточки из массива
+cardGridArray.forEach((item) => {
+  const card = new Card('#card-template', item);
+  const cardElement = card.createCard();
 
-  const likeButton = card.querySelector('.card-grid__like-button');
-  likeButton.addEventListener('click', handleLikeButtonClick);
-
-  const deleteBytton = card.querySelector('.card-grid__delete-button');
-  deleteBytton.addEventListener('click', handleDeleteButtonClick);
-
-  cardImage.setAttribute('src', item.source);
-  cardImage.setAttribute('alt', item.description);
-  cardName.textContent = item.name;
-
-  cardImage.addEventListener('click', function() {openPopupCard(item)});
-
-  return card
-};
-
-cardGridArray.forEach(function(item) {
-  const element = createElement(item);
-  cardGridElement.append(element)
+  cardGridElement.append(cardElement);
 });
-
-// Прописываем алгоритм лайка карточек
-function handleLikeButtonClick (evt) {
-  evt.target.classList.toggle('card-grid__like-button_active')
-};
-
-// Прописываем алгоритм удаления карточек
-function handleDeleteButtonClick (evt) {
-  evt.target.closest('.card-grid__item').remove()
-};
-
-
-
-//Popup Card Image
-// Прописываем открывание и закрывание Popup Card Image
-function openPopupCard (item) {
-  openPopup(popupCardElement);
-
-  popupCardImage.setAttribute('src', item.source);
-  popupCardImage.setAttribute('alt', item.description);
-  popupCardImageCaption.textContent = item.name;
-};
 
 
 
