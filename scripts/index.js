@@ -33,17 +33,23 @@ const validationConfig = {
   submitButtonSelector: '.popup__submit-button',
   inputErrorClass: 'popup__input_type_error',
   errorClass: 'popup__input-error_active'
-}
+};
 
 
 
-// Валидируем все формы
-const formList = Array.from(document.forms);
+//Валидация форм
+//Прописываем алгоритм валидации форм
+function formValidation(form) {
+  return new FormValidator(validationConfig, form)
+};
 
-formList.forEach(function(form) {
-  const validator = new FormValidator(validationConfig, form);
-  validator.enableValidation();
-});
+// Валидируем форму данных профиля
+const profileFormValidator = formValidation(profileForm);
+profileFormValidator.enableValidation();
+
+// Валидируем форму добавления карточки
+const cardFormValidator = formValidation(cardForm);
+cardFormValidator.enableValidation();
 
 
 
@@ -84,13 +90,10 @@ function closePopupByKey(evt) {
 // Добавляем обработчик событий для открывания Popup Profile Info 
 popupProfileInfoOpenButtonElement.addEventListener('click', function() {
 
-  const validator = new FormValidator(validationConfig, profileForm);
-  validator.updateValidation();
+  profileFormValidator.updateValidation();
 
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-
-  validator.enableValidation();
 
   openPopup(popupProfileInfoElement);
   });
@@ -115,11 +118,17 @@ profileForm.addEventListener('submit', handleProfileFormSubmit);
 //Popup Place Addition
 // Добавляем обработчик событий для открывания Popup Place Addition
 popupPlaceAddOpenButtonElement.addEventListener('click', function() {
-  const validator = new FormValidator(validationConfig, cardForm);
-  validator.deactivateSubmitButton();
+
+  cardFormValidator.deactivateSubmitButton();
 
   openPopup(popupPlaceAddElement)
 });
+
+// Прописываем алгоритм создания новых карточек
+function createNewCard(cardData) {
+  const card = new Card('#card-template', cardData);
+  return card.createCard();
+};
 
 // Создаем новые карточки в Popup Place Addition
 function handleCardFormSubmit (evt) {
@@ -134,10 +143,7 @@ function handleCardFormSubmit (evt) {
     name: newPlaceInput
   };
 
-  const card = new Card('#card-template', newCard);
-  const cardElement = card.createCard();
-
-  cardGridElement.prepend(cardElement);
+  cardGridElement.prepend(createNewCard(newCard));
 
   evt.target.reset();
 
@@ -148,14 +154,7 @@ cardForm.addEventListener('submit', handleCardFormSubmit);
 
 // Создаем карточки в Popup Place Addition из массива
 cardGridArray.forEach((item) => {
-  const card = new Card('#card-template', item);
-  const cardElement = card.createCard();
-  // Здесь не совсем поняла замечание.
-  // Я создаю разные карточки, так как данные в конструктор карточки идут разные.
-  // А метод добавления карт дублирую, так как они добавляются либо в начало, либо в конец грида.
-  // Или я неправильно поняла замечание?
-
-  cardGridElement.append(cardElement);
+  cardGridElement.append(createNewCard(item));
 });
 
 
