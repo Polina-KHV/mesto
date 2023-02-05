@@ -1,10 +1,7 @@
-// Импортируем файлы
-import { popupCardElement, popupCardImage, popupCardImageCaption, openPopup } from './index.js'
 
-// Создаем класс Card
-export class Card {
+export default class Card {
 
-  constructor(templateSelector, data) {
+  constructor(templateSelector, data, {handleCardClick}) {
     this._element = document.querySelector(templateSelector).content.children[0].cloneNode(true);
 
     this._likeButton = this._element.querySelector('.card-grid__like-button');
@@ -14,21 +11,14 @@ export class Card {
     this._source = data.source;
     this._description = data.description;
     this._name = data.name;
+
+    this.handleCardClick = handleCardClick;
   };
 
   // Прописываем алгоритм добавления карточки
   _getTemplate() {
     return this._element;
   }
-
-  // Прописываем открывание Popup Card Image
-  _openPopupCard() {
-    popupCardImage.src = this._source;
-    popupCardImage.alt =  this._description;
-    popupCardImageCaption.textContent = this._name;
-
-    openPopup(popupCardElement);
-  };
 
   // Прописываем лайк карточек
   _handleLikeButton() {
@@ -47,7 +37,7 @@ export class Card {
 
     this._deleteButton.addEventListener('click', () => this._handleDeleteButton());
 
-    this._image.addEventListener('click', () => this._openPopupCard())
+    this._image.addEventListener('click', () => this.handleCardClick())
   }
 
     // Создаем карточку
@@ -63,3 +53,4 @@ export class Card {
       return this._element
     }
 };
+
