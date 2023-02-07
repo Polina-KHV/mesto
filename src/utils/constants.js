@@ -1,32 +1,40 @@
+// Импорт изображений для массива
+const altaiImage = new URL('../images/card-grid/altai.png', import.meta.url);
+const baikalImage = new URL('../images/card-grid/baikal.png', import.meta.url);
+const elbrusImage = new URL('../images/card-grid/elbrus.png', import.meta.url);
+const kamchatkaImage = new URL('../images/card-grid/kamchatka.png', import.meta.url);
+const kareliaImage = new URL('../images/card-grid/karelia.png', import.meta.url);
+const sochiImage = new URL('../images/card-grid/sochi.png', import.meta.url);
+
 // Массив первоначальных карточек мест
 export const cardGridArray = [
   {
-    source: './images/card-grid/altai.png',
+    source: altaiImage,
     description: 'Алтай. Горное озеро.Каменный склон. Лес на берегу.',
     name: 'Алтай'
   },
   {
-    source: './images/card-grid/baikal.png',
+    source: baikalImage,
     description: 'Байкал. Остров Огой.Заледеневшее озеро. Скала.',
     name: 'Байкал'
   },
   {
-    source: './images/card-grid/elbrus.png',
+    source: elbrusImage,
     description: 'Эльбрус. Вершины. Горный массив. Река в долине.',
     name: 'Эльбрус'
   },
   {
-    source: './images/card-grid/kamchatka.png',
+    source: kamchatkaImage,
     description: 'Камчатка. Вулкан в облаках. Черный склон со снегом.',
     name: 'Камчатка'
   },
   {
-    source: './images/card-grid/karelia.png',
+    source: kareliaImage,
     description: 'Карелия. Скалистый берег реки. Сосновый лес.',
     name: 'Карелия'
   },
   {
-    source: './images/card-grid/sochi.png',
+    source: sochiImage,
     description: 'Сочи. Горный массив в зелени. Серпантин. Туман.',
     name: 'Сочи'
   }

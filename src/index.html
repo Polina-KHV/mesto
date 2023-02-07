@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
     <title lang="en">Mesto</title>
   </head>
   <body class="page">
@@ -19,7 +18,7 @@
 
         <!-- Profile -->
         <section class="profile">
-          <img src="./images/Avatar.png" alt="Здесь должна быть ваша аватарка, но что-то пошло не так." class="profile__avatar">
+          <img src="<%=require('./images/Avatar.png')%>" alt="Здесь должна быть ваша аватарка, но что-то пошло не так." class="profile__avatar">
           <div class="profile__info">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
             <button class="profile__edit-button" type="button"></button>
@@ -74,7 +73,7 @@
       <section class="popup popup_type_card">
         <div class="popup__card-container">
           <figure class="popup__image-container">
-            <img class="popup__image" src="./images/card-grid/altai.png" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу.">
+            <img class="popup__image" src="<%=require('./images/card-grid/altai.png')%>" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу.">
             <figcaption class="popup__image-caption"></figcaption>
           </figure>
           <button class="popup__close-button" type="button"></button>
@@ -84,7 +83,7 @@
       <!-- Template -->
       <template id="card-template">
         <li class="card-grid__item"> 
-          <img class="card-grid__image" src="./images/card-grid/altai.png" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу.">
+          <img class="card-grid__image" src="<%=require('./images/card-grid/altai.png')%>" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу.">
           <div class="card-grid__content">
             <h2 class="card-grid__name"></h2>
             <button class="card-grid__like-button" type="button"></button>
@@ -93,8 +92,6 @@
         </li>
       </template>
     </div>
-
-    <script type="module" src="./pages/index.js"></script>
 
   </body>
 </html>
