@@ -16,8 +16,6 @@ import {
   profileJobSelector,
   popupProfileInfoSelector,
   popupProfileInfoOpenButtonElement,
-  nameInput,
-  jobInput,
   popupPlaceAdditionSelector,
   popupPlaceAdditionOpenButtonElement,
   popupCardSelector,
@@ -62,8 +60,7 @@ popupProfileInfoOpenButtonElement.addEventListener('click', function() {
 
   const profileInfo = currentUserInfo.getUserInfo();
   
-  nameInput.value = profileInfo.name;
-  jobInput.value = profileInfo.job;
+  popupProfileInfo.setInputValues(profileInfo);
 
   popupProfileInfo.open();
 });
@@ -79,7 +76,7 @@ const popupPlaceAddition = new PopupWithForm(popupPlaceAdditionSelector, {
     description: data.place,
     name: data.place
   }
-  newCard._renderer(cardData)
+  CardGrid.renderer(cardData)
 }
 });
 
@@ -111,28 +108,14 @@ function createNewCard(cardData) {
 
 
 
-// Card
-// Создаем новую карточку
-const newCard = new Section({
-  renderer: (cardData) => {
-    const card = createNewCard(cardData);
-    newCard.addItem(card);
-  }
-}, cardGridSelector);
-
-// Создаем карточки первоначального массива cardGridArray
-const initialCardGrid = new Section({
+// CardGrid
+// Добавляем карточки в CardGrid
+const CardGrid = new Section({
   items: cardGridArray,
   renderer: (item) => {
-    const card = new Card(cardSelector, item, {
-      handleCardClick: () => {
-        popupCard.open(item)
-      }
-    });
-
-    const cardElement = card.createCard();
-    initialCardGrid.addItem(cardElement)
+    const cardElement = createNewCard(item);
+    CardGrid.addItem(cardElement)
   }
 }, cardGridSelector);
 
-initialCardGrid.renderItems();
+CardGrid.renderItems();

@@ -49,8 +49,6 @@ export const popupPlaceAdditionSelector = '.popup_type_place-addition';
 export const popupPlaceAdditionOpenButtonElement = document.querySelector('.profile__add-button');
 
 export const profileForm = document.forms['profile-information'];
-export const nameInput = profileForm.elements['name'];
-export const jobInput = profileForm.elements['job'];
 
 export const profileNameSelector = '.profile__name';
 export const profileJobSelector = '.profile__job';
