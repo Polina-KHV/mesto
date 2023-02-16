@@ -19,11 +19,13 @@
 
         <!-- Profile -->
         <section class="profile">
-          <img src="<%=require('./images/Avatar.png')%>" alt="Здесь должна быть ваша аватарка, но что-то пошло не так." class="profile__avatar">
+          <div class="profile__avatar-cover">
+            <img src="#" alt="Здесь должна быть ваша аватарка, но что-то пошло не так." class="profile__avatar">
+          </div>
           <div class="profile__info">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <h1 class="profile__name"></h1>
             <button class="profile__edit-button" type="button"></button>
-            <p class="profile__job">Исследователь океана</p>
+            <p class="profile__job"></p>
           </div>
           <button class="profile__add-button" type="button"></button>
         </section>
@@ -40,14 +42,27 @@
         <p class="footer__copyright" lang="en">&#169;2022 Mesto Russia</p>
       </footer>
 
+      <!-- Popup Avatar Update -->
+      <section class="popup popup_type_avatar-update">
+        <div class="popup__container">
+          <form class="popup__content popup__form" name="avatar-update" novalidate>
+            <h2 class="popup__title">Обновить аватар</h2>
+            <input type="url" class="popup__input" name="avatar" id="avatar-input" placeholder="Ссылка на картинку" required>
+            <span class="popup__input-error avatar-input-error"></span>
+            <button class="popup__submit-button" type="submit">Сохранить</button>
+          </form>
+          <button class="popup__close-button" type="button"></button>
+        </div>
+      </section>
+      
       <!-- Popup Profile Info -->
       <section class="popup popup_type_profile-information">
         <div class="popup__container">
           <form class="popup__content popup__form" name="profile-information" novalidate>
             <h2 class="popup__title">Редактировать профиль</h2>
-            <input type="text" class="popup__input" name="name" id="name-input" value="Жак-Ив Кусто" minlength="2" maxlength="40" required>
+            <input type="text" class="popup__input" name="name" id="name-input" value="" minlength="2" maxlength="40" required>
             <span class="popup__input-error name-input-error"></span>
-            <input type="text" class="popup__input" name="job" id="job-input" value="Исследователь океана" minlength="2" maxlength="200" required>
+            <input type="text" class="popup__input" name="job" id="job-input" value="" minlength="2" maxlength="200" required>
             <span class="popup__input-error job-input-error"></span>
             <button class="popup__submit-button" type="submit">Сохранить</button>
           </form>
@@ -70,11 +85,20 @@
         </div>
       </section>
 
+      <!-- Popup Delete Confirmation -->
+      <section class="popup popup_type_delete-confirmation">
+        <div class="popup__container">
+          <h2 class="popup__title">Вы уверены?</h2>
+          <button class="popup__confirm-button" type="button">Да</button>
+          <button class="popup__close-button" type="button"></button>
+        </div>
+      </section>
+
       <!-- Popup Card Image -->
       <section class="popup popup_type_card">
         <div class="popup__card-container">
           <figure class="popup__image-container">
-            <img class="popup__image" src="<%=require('./images/card-grid/altai.png')%>" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу.">
+            <img class="popup__image" src="#" alt="">
             <figcaption class="popup__image-caption"></figcaption>
           </figure>
           <button class="popup__close-button" type="button"></button>
@@ -84,14 +108,18 @@
       <!-- Template -->
       <template id="card-template">
         <li class="card-grid__item"> 
-          <img class="card-grid__image" src="<%=require('./images/card-grid/altai.png')%>" alt="Алтай. Горное озеро.Каменный склон. Лес на берегу.">
+          <img class="card-grid__image" src="#" alt="">
           <div class="card-grid__content">
             <h2 class="card-grid__name"></h2>
-            <button class="card-grid__like-button" type="button"></button>
+            <div class="card-grid__like-content">
+              <button class="card-grid__like-button" type="button"></button>
+              <p class="card-grid__likes-amount"></p>
+            </div>
           </div>
           <button class="card-grid__delete-button" type="button"></button>
         </li>
       </template>
     </div>
+
   </body>
 </html>
