@@ -41,10 +41,11 @@ export default class PopupWithForm extends Popup {
       const initialSubmitButtonText = this._submitButton.textContent;
       this._submitButton.textContent = 'Сохранение...';
       
-      this._handleFormSubmit(this._getInputValues());
-         
-      this.close();
-      this._submitButton.textContent = initialSubmitButtonText;
+      this._handleFormSubmit(this._getInputValues())
+      .then(() => this.close())
+      .finally(() => {
+        this._submitButton.textContent = initialSubmitButtonText;
+      }) 
     });
   }
 }

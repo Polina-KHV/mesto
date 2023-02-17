@@ -26,9 +26,13 @@ export default class Card {
     return this._element;
   }
 
-  // Прописываем лайк карточек
-  toggleLikeButton(likes) {
+  // Переключаем кнопку лайка
+  toggleLikeButton() {
     this._likeButton.classList.toggle('card-grid__like-button_active');
+  }
+
+  // Обновляем количество лайков
+  updateLikeAmount(likes) {
     this._likesAmount.textContent = likes.length;
   }
   
@@ -66,9 +70,15 @@ export default class Card {
       
       if(this._owner._id !== this._userId) {
         this._deleteButton.remove()
-      }
-      
-      return this._element
+      };
+
+      this._likes.forEach(user => {
+        if(user._id === this._userId) {
+          return this.toggleLikeButton()
+        }
+      });
+
+      return this._element;
     }
 };
 

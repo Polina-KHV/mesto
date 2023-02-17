@@ -74,8 +74,8 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 // Popup Avatar Update
 // Создаем экземпляр класса Popup Avatar Update
 const popupAvatarUpdate = new PopupWithForm(popupAvatarUpdateSelector, {
-  handleFormSubmit: (data) =>
-  api.updateUserAvatar(data)
+  handleFormSubmit: (data) => {
+  return api.updateUserAvatar(data)
   .then((data) => {
     currentUserInfo.setUserAvatar({
       avatar: data.avatar,
@@ -83,7 +83,7 @@ const popupAvatarUpdate = new PopupWithForm(popupAvatarUpdateSelector, {
   })
   .catch((err) => {
     console.log(err);
-  })
+  })}
 });
 
 popupAvatarUpdate.setEventListeners();
@@ -101,8 +101,8 @@ popupAvatarUpdateOpenButtonElement.addEventListener('click', function() {
 // Popup Profile Info
 // Создаем экземпляр класса Popup Profile Info
 const popupProfileInfo = new PopupWithForm(popupProfileInfoSelector, {
-  handleFormSubmit: (data) =>
-  api.updateUserInfo(data)
+  handleFormSubmit: (data) => {
+  return api.updateUserInfo(data)
   .then((data) => {
     currentUserInfo.setUserInfo({
       name: data.name,
@@ -111,7 +111,7 @@ const popupProfileInfo = new PopupWithForm(popupProfileInfoSelector, {
   })
   .catch((err) => {
     console.log(err);
-  })
+  })}
 });
 
 popupProfileInfo.setEventListeners();
@@ -134,7 +134,7 @@ popupProfileInfoOpenButtonElement.addEventListener('click', function() {
 // Создаем экземпляр класса Popup Place Addition
 const popupPlaceAddition = new PopupWithForm(popupPlaceAdditionSelector, {
   handleFormSubmit: (data) => {
-  api.addNewCard(data)
+  return api.addNewCard(data)
   .then((data) => {
     const cardData = {
       link: data.link,
@@ -165,6 +165,8 @@ popupPlaceAdditionOpenButtonElement.addEventListener('click', function() {
 // Создаем экземпляр класса Popup With Confirmation
 const popupWithConfirmation = new PopupWithConfirmation(popupWithConfirmationSelector);
 
+popupWithConfirmation.setEventListeners();
+
 
 
 // Popup Card
@@ -177,14 +179,15 @@ function createNewCard(cardData) {
   const card = new Card(cardSelector, cardData, userId, {
     handleCardClick: () => popupCard.open(cardData),
     handleDeleteButtonClick: () => {
-      popupWithConfirmation.open(cardData);
-      popupWithConfirmation.setEventListeners({
+      popupWithConfirmation.open();
+      popupWithConfirmation.addConfirmationListener({
         handleDeleteConfirmation: () => {
-        api.deleteCard(cardData._id)
-        .then(card.removeCard())
-        .catch((err) => {
-        console.log(err);
-        })
+          api.deleteCard(cardData._id)
+          .then(() => card.removeCard())
+          .catch((err) => {
+          console.log(err);
+          })
+          .finally(() => popupWithConfirmation.close())
         }
       })
     },
@@ -192,7 +195,8 @@ function createNewCard(cardData) {
       if(card.isLiked()) {
         api.deleteLike(cardData._id)
         .then((data) => {
-          card.toggleLikeButton(data.likes)
+          card.toggleLikeButton();
+          card.updateLikeAmount(data.likes)
         })
         .catch((err) => {
           console.log(err);
@@ -200,7 +204,8 @@ function createNewCard(cardData) {
       } else if(!card.isLiked()) {
         api.putLike(cardData._id)
         .then((data) => {
-          card.toggleLikeButton(data.likes)
+          card.toggleLikeButton();
+          card.updateLikeAmount(data.likes)
         })
         .catch((err) => {
           console.log(err);
