@@ -43,6 +43,9 @@ export default class PopupWithForm extends Popup {
       
       this._handleFormSubmit(this._getInputValues())
       .then(() => this.close())
+      .catch((err) => {
+        console.log(err);
+      })
       .finally(() => {
         this._submitButton.textContent = initialSubmitButtonText;
       }) 

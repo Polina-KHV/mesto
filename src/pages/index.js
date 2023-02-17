@@ -145,7 +145,9 @@ const popupPlaceAddition = new PopupWithForm(popupPlaceAdditionSelector, {
     }
     cardGrid.renderer(cardData)
   })
-
+  .catch((err) => {
+    console.log(err);
+  });
 }
 });
 
@@ -183,11 +185,13 @@ function createNewCard(cardData) {
       popupWithConfirmation.addConfirmationListener({
         handleDeleteConfirmation: () => {
           api.deleteCard(cardData._id)
-          .then(() => card.removeCard())
+          .then(() => {
+            card.removeCard();
+            popupWithConfirmation.close()
+          })
           .catch((err) => {
           console.log(err);
           })
-          .finally(() => popupWithConfirmation.close())
         }
       })
     },
